@@ -1,0 +1,17 @@
+@import "tailwindcss";
+.card-img-container {
+  overflow: hidden; /* giữ ảnh nằm trong khung */
+  border-radius: 0.5rem; /* bo góc nếu cần */
+}
+
+.img-hover-zoom {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.img-hover-zoom:hover {
+  transform: scale(1.05);
+}
+
