@@ -1,0 +1,142 @@
+package com.hotelbooking.hotel_booking.service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import com.hotelbooking.hotel_booking.domain.Cart;
+import com.hotelbooking.hotel_booking.domain.CartDetail;
+import com.hotelbooking.hotel_booking.domain.Room;
+import com.hotelbooking.hotel_booking.domain.User;
+import com.hotelbooking.hotel_booking.repository.CartDetailRepository;
+import com.hotelbooking.hotel_booking.repository.CartRepository;
+import com.hotelbooking.hotel_booking.repository.RoomRepository;
+import com.hotelbooking.hotel_booking.repository.UserRepository;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
+public class CartService {
+    private final CartRepository cartRepository;
+    private final CartDetailRepository cartDetailRepository;
+    private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
+
+
+    // Lấy user hiện tại từ authentication
+    private User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    // Lấy giỏ hàng của user hiện tại
+    private Cart getCurrentUserCart(User user) {
+        return cartRepository.findByUser(user)
+                .orElseGet(() -> {
+                    // Tạo mới giỏ hàng nếu chưa có
+                    Cart newCart = new Cart();
+                    newCart.setUser(user);
+                    newCart.setSum(0);
+                    return cartRepository.save(newCart);
+                });
+    }
+
+    public CartDetail addToCart(Long roomId, int quantity, int guests, 
+                               LocalDate checkIn, LocalDate checkOut) {
+        User user = getCurrentUser();
+        Cart cart = getCurrentUserCart(user);
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Room not found"));
+
+        // Kiểm tra số lượng phòng còn trống
+        if (room.getQuantity() < quantity) {
+            throw new RuntimeException("Số lượng phòng không đủ");
+        }
+
+        // Kiểm tra xem phòng đã có trong giỏ hàng chưa
+        Optional<CartDetail> existingCartDetail = cartDetailRepository
+                .findByCartAndRoom(cart, room);
+
+        CartDetail cartDetail;
+        boolean isNewItem = false;
+        
+        if (existingCartDetail.isPresent()) {
+            cartDetail = existingCartDetail.get();
+            cartDetail.setQuantity(cartDetail.getQuantity() + quantity);
+        } else {
+            cartDetail = new CartDetail();
+            cartDetail.setCart(cart);
+            cartDetail.setRoom(room);
+            cartDetail.setPrice(room.getPrice());
+            cartDetail.setQuantity(quantity);
+            cartDetail.setNumAdults(guests);
+            cartDetail.setNumChildren(0);
+            cartDetail.setCheckIn(checkIn);
+            cartDetail.setCheckOut(checkOut);
+            cartDetail.setCreateAt(LocalDateTime.now());
+            isNewItem = true;
+        }
+
+        cartDetail.setUpdateAt(LocalDateTime.now());
+        CartDetail savedCartDetail = cartDetailRepository.save(cartDetail);
+        
+        // Chỉ cập nhật số lượng loại phòng nếu là item mới
+        if (isNewItem) {
+            updateCartItemCount(cart);
+        }
+
+        return savedCartDetail;
+    }
+
+    private void updateCartItemCount(Cart cart) {
+        long distinctRoomCount = cartDetailRepository.countByCart(cart);
+        cart.setSum((int) distinctRoomCount);
+        cartRepository.save(cart);
+    }
+
+    public List<CartDetail> getCartItems() {
+        User user = getCurrentUser();
+        Cart cart = getCurrentUserCart(user);
+        return cartDetailRepository.findByCart(cart);
+    }
+
+    public CartDetail updateCartItem(Long itemId, int quantity) {
+        CartDetail cartDetail = cartDetailRepository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Cart item not found"));
+
+        // Kiểm tra số lượng phòng
+        if (cartDetail.getRoom().getQuantity() < quantity) {
+            throw new RuntimeException("Số lượng phòng không đủ");
+        }
+
+        cartDetail.setPrice(cartDetail.getRoom().getPrice());
+        cartDetail.setQuantity(quantity);
+        cartDetail.setUpdateAt(LocalDateTime.now());
+
+
+        return cartDetailRepository.save(cartDetail);
+    }
+
+    public void removeCartItem(Long itemId) {
+        CartDetail cartDetail = cartDetailRepository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Cart item not found"));
+        cartDetailRepository.delete(cartDetail);
+    }
+
+    public void clearCart() {
+        User user = getCurrentUser();
+        Cart cart = getCurrentUserCart(user);
+        cartDetailRepository.deleteAllByCart(cart);
+        cart.setSum(0);
+        cartRepository.save(cart);
+    }
+
+}
