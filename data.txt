@@ -1,0 +1,201 @@
+
+
+-- Thêm Role
+INSERT INTO roles (id, name, description) VALUES
+(1, 'Admin', 'Quản trị hệ thống'),
+(2, 'Customer', 'Khách hàng đặt phòng');
+
+-- Thêm User
+INSERT INTO users (id, full_name, email, phone, password, avatar, role_id) VALUES
+(1, 'Customer', 'customer@gmail.com', '0901234567', '123456', '', 2),
+(2, 'Admin', 'admin@gmail.com', '0999999999', '123456', '', 1);
+
+-- Them Ks
+INSERT INTO hotels (address, phone, rating, detail_desc, short_desc, image, city) VALUES
+-- 2 khách sạn Đà Lạt
+('03 Nguyễn Du, Phường 9', '02633 888 111', 5, 
+ 'Nằm giữa không gian xanh mát của thành phố ngàn hoa, Mercure Đà Lạt mang đến trải nghiệm nghỉ dưỡng sang trọng.',
+ 'Resort sang trọng giữa lòng Đà Lạt.', '/mercure-dalat.png', 'Đà Lạt'),
+
+('10 Phan Bội Châu, Phường 1', '02633 999 222', 4, 
+ 'Khách sạn Colline Đà Lạt nằm ngay trung tâm thành phố, thuận tiện cho mua sắm và tham quan Hồ Xuân Hương.',
+ 'Khách sạn trung tâm gần chợ Đà Lạt.', '/colline-dalat.png', 'Đà Lạt'),
+
+-- 3 khách sạn Vũng Tàu
+('01 Thùy Vân, P.2', '02543 888 123', 5,
+ 'Pullman Vũng Tàu mang phong cách hiện đại, chỉ vài bước ra bãi biển Thùy Vân.',
+ 'Khách sạn 5 sao sát biển Thùy Vân.', '/pullman-vungtau.png', 'Vũng Tàu'),
+
+('159 Thùy Vân, P.2', '02543 777 456', 4,
+ 'Khách sạn Imperial nổi bật với thiết kế cổ điển, có bãi biển riêng và hồ bơi ngoài trời.',
+ 'Khách sạn phong cách châu Âu.', '/imperial-vungtau.png', 'Vũng Tàu'),
+
+('147C Thùy Vân, P.2', '02543 666 789', 3,
+ 'Malibu Vũng Tàu với thiết kế trẻ trung, phù hợp cho gia đình và nhóm bạn.',
+ 'Khách sạn hiện đại, gần biển.', '/malibu-vungtau.png', 'Vũng Tàu'),
+
+-- 3 khách sạn Phú Quốc
+('Đường Trần Hưng Đạo, Dương Tơ', '02973 555 111', 5,
+ 'Vinpearl Resort & Spa Phú Quốc mang đến trải nghiệm nghỉ dưỡng đẳng cấp với bãi biển riêng.',
+ 'Resort 5 sao với bãi biển riêng.', '/vinpearl-phuquoc.png', 'Phú Quốc'),
+
+('Bãi Trường, Dương Tơ', '02973 444 222', 4,
+ 'Novotel Phú Quốc có thiết kế hiện đại, hồ bơi lớn và nhiều tiện ích giải trí.',
+ 'Khách sạn 4 sao gần Bãi Trường.', '/novotel-phuquoc.png', 'Phú Quốc'),
+
+('Ấp Ông Lang, Cửa Dương', '02973 333 333', 3,
+ 'Sea Sense Resort Phú Quốc nằm bên bờ biển Ông Lang yên bình, phù hợp cho kỳ nghỉ thư giãn.',
+ 'Resort yên tĩnh gần biển Ông Lang.', '/seasense-phuquoc.png', 'Phú Quốc'),
+
+-- 2 khách sạn Phan Thiết
+('Km9 Nguyễn Thông, Phú Hài', '02523 222 111', 5,
+ 'Sea Links Beach Resort Phan Thiết sở hữu sân golf và hồ bơi lớn, tầm nhìn biển tuyệt đẹp.',
+ 'Resort 5 sao với sân golf.', '/sealinks-phanthiet.png', 'Phan Thiết'),
+
+('Nguyễn Đình Chiểu, Hàm Tiến', '02523 111 222', 4,
+ 'Saigon Mui Ne Resort nổi tiếng với không gian xanh, hồ bơi sát biển và dịch vụ thân thiện.',
+ 'Resort ven biển Hàm Tiến.', '/saigonmuine-phanthiet.png', 'Phan Thiết');
+
+-- Thêm tag
+
+-- Tag cho khách sạn 1 (Đà Lạt)
+INSERT INTO tags (name, hotel_id) VALUES
+('Hồ Xuân Hương', 1),
+('Không gian xanh mát', 1),
+('Thiết kế cổ điển', 1);
+
+-- Tag cho khách sạn 2 (Đà Lạt)
+INSERT INTO tags (name, hotel_id) VALUES
+('Chợ Đà Lạt', 2),
+('Thuận tiện mua sắm', 2);
+
+-- Tag cho khách sạn 3 (Vũng Tàu)
+INSERT INTO tags (name, hotel_id) VALUES
+('View biển', 3),
+('Hồ bơi ngoài trời', 3),
+('Bãi Sau', 3);
+
+-- Tag cho khách sạn 4 (Vũng Tàu)
+INSERT INTO tags (name, hotel_id) VALUES
+('Trung tâm Vũng Tàu', 4),
+('Bar', 4);
+
+-- Tag cho khách sạn 5 (Vũng Tàu)
+INSERT INTO tags (name, hotel_id) VALUES
+('Resort ven biển', 5),
+('Thích hợp gia đình', 5);
+
+-- Tag cho khách sạn 6 (Phú Quốc)
+INSERT INTO tags (name, hotel_id) VALUES
+('Bãi biển riêng', 6),
+('View hoàng hôn đẹp', 6),
+('Ẩm thực hải sản', 6);
+
+-- Tag cho khách sạn 7 (Phú Quốc)
+INSERT INTO tags (name, hotel_id) VALUES
+('Villa cao cấp', 7),
+('Hồ bơi riêng', 7),
+('Phong cách sang trọng', 7);
+
+-- Tag cho khách sạn 8 (Phú Quốc)
+INSERT INTO tags (name, hotel_id) VALUES
+('Resort gần VinWonders', 8),
+('Hải sản tươi sống', 8);
+
+-- Tag cho khách sạn 9 (Phan Thiết)
+INSERT INTO tags (name, hotel_id) VALUES
+('View biển', 9),
+('Không gian yên tĩnh', 9);
+
+-- Tag cho khách sạn 10 (Phan Thiết)
+INSERT INTO tags (name, hotel_id) VALUES
+('Resort nghỉ dưỡng', 10),
+('Dịch vụ spa cao cấp', 10);
+
+-- Thêm tiện ích
+
+-- Khách sạn 1 (Đà Lạt)
+INSERT INTO facilities (name, hotel_id) VALUES
+('WiFi miễn phí', 1),
+('Hồ bơi', 1),
+('Nhà hàng', 1),
+('Spa', 1),
+('Phòng gym', 1),
+('Bãi đậu xe', 1);
+
+-- Khách sạn 2 (Đà Lạt)
+INSERT INTO facilities (name, hotel_id) VALUES
+('WiFi miễn phí', 2),
+('Nhà hàng', 2),
+('Bar', 2),
+('Spa', 2),
+('Phòng gym', 2),
+('Bãi đậu xe', 2);
+
+-- Khách sạn 3 (Vũng Tàu)
+INSERT INTO facilities (name, hotel_id) VALUES
+('WiFi miễn phí', 3),
+('Hồ bơi', 3),
+('Nhà hàng', 3),
+('Bar', 3),
+('Phòng gym', 3),
+('Bãi đậu xe', 3);
+
+-- Khách sạn 4 (Vũng Tàu)
+INSERT INTO facilities (name, hotel_id) VALUES
+('WiFi miễn phí', 4),
+('Nhà hàng', 4),
+('Spa', 4),
+('Phòng gym', 4),
+('Bãi đậu xe', 4);
+
+-- Khách sạn 5 (Vũng Tàu)
+INSERT INTO facilities (name, hotel_id) VALUES
+('WiFi miễn phí', 5),
+('Hồ bơi', 5),
+('Nhà hàng', 5),
+('Spa', 5),
+('Bãi đậu xe', 5);
+
+-- Khách sạn 6 (Phú Quốc)
+INSERT INTO facilities (name, hotel_id) VALUES
+('WiFi miễn phí', 6),
+('Hồ bơi', 6),
+('Nhà hàng', 6),
+('Bar', 6),
+('Phòng gym', 6),
+('Spa', 6),
+('Bãi đậu xe', 6);
+
+-- Khách sạn 7 (Phú Quốc)
+INSERT INTO facilities (name, hotel_id) VALUES
+('WiFi miễn phí', 7),
+('Nhà hàng', 7),
+('Spa', 7),
+('Bãi đậu xe', 7);
+
+-- Khách sạn 8 (Phú Quốc)
+INSERT INTO facilities (name, hotel_id) VALUES
+('WiFi miễn phí', 8),
+('Hồ bơi', 8),
+('Nhà hàng', 8),
+('Phòng gym', 8),
+('Spa', 8);
+
+-- Khách sạn 9 (Phan Thiết)
+INSERT INTO facilities (name, hotel_id) VALUES
+('WiFi miễn phí', 9),
+('Hồ bơi', 9),
+('Nhà hàng', 9),
+('Bar', 9),
+('Phòng gym', 9),
+('Spa', 9),
+('Bãi đậu xe', 9);
+
+-- Khách sạn 10 (Phan Thiết)
+INSERT INTO facilities (name, hotel_id) VALUES
+('WiFi miễn phí', 10),
+('Nhà hàng', 10),
+('Spa', 10),
+('Phòng gym', 10),
+('Bãi đậu xe', 10);
