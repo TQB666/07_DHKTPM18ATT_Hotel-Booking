@@ -29,6 +29,15 @@ export const cartApi = {
   clearCart: async () => {
     const response = await api.delete("/cart/clear");
     return response.data;
+  },
+  
+  // Cập nhật ngày check-in / check-out
+  updateCartItemDate: async (cartItemId, field, value) => {
+    // field là "checkIn" hoặc "checkOut"
+    const response = await api.put(`/cart/items/${cartItemId}/date`, {
+      [field]: value,
+    });
+    return response.data;
   }
 };
 

@@ -59,4 +59,9 @@ public class Booking {
 
     @OneToMany(mappedBy = "booking")
     Set<BookingDetail> bookingDetails;
+
+    private String fullName;
+    private String email;
+    private String phoneNumber;
+
 }
