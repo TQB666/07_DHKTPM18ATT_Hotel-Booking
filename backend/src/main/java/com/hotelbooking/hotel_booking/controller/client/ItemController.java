@@ -1,6 +1,7 @@
 package com.hotelbooking.hotel_booking.controller.client;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,10 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hotelbooking.hotel_booking.domain.CartDetail;
+import com.hotelbooking.hotel_booking.domain.dto.CartDataRender;
 import com.hotelbooking.hotel_booking.domain.dto.CartItemRequestDTO;
 import com.hotelbooking.hotel_booking.service.CartService;
 
@@ -46,8 +47,8 @@ public class ItemController {
 
     // Lấy tất cả items trong giỏ hàng của user
     @GetMapping
-    public ResponseEntity<List<CartDetail>> getCartItems() {
-        List<CartDetail> cartItems = cartService.getCartItems();
+    public ResponseEntity<List<CartDataRender>> getCartItems() {
+        List<CartDataRender> cartItems = cartService.getCartItems();
         return ResponseEntity.ok(cartItems);
     }
 
@@ -55,8 +56,9 @@ public class ItemController {
     @PutMapping("/items/{itemId}")
     public ResponseEntity<?> updateCartItem(
             @PathVariable Long itemId,
-            @RequestParam int quantity) {
+            @RequestBody Map<String, Integer> body) {
         try {
+            int quantity = body.get("quantity");
             CartDetail updatedItem = cartService.updateCartItem(itemId, quantity);
             return ResponseEntity.ok(updatedItem);
         } catch (Exception e) {
@@ -85,4 +87,18 @@ public class ItemController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    // Cập nhật checkIn, Checkout
+    @PutMapping("/items/{itemId}/date")
+    public ResponseEntity<?> updateCartItemDate(
+            @PathVariable Long itemId,
+            @RequestBody Map<String, String> dates) {
+        try {
+            CartDetail updatedItem = cartService.updateCartItemDate(itemId, dates);
+            return ResponseEntity.ok(updatedItem);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

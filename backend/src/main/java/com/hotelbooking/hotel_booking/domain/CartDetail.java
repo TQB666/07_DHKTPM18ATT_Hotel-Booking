@@ -3,7 +3,8 @@ package com.hotelbooking.hotel_booking.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,18 +47,15 @@ public class CartDetail {
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
-    @JsonIgnore
+    @JsonBackReference // tránh vòng lặp khi serialize (cart chứa list cartDetails)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Cart cart;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
-    @JsonIgnore
+    @JsonManagedReference // room không chứa danh sách cartDetail nên an toàn
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Room room;
-
-    
-    
 }
