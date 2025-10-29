@@ -8,6 +8,7 @@ import HotelDetail from "./pages/client/DetailHotelPage";
 import AdminPage from "./pages/admin/AdminPage";
 import CartPage from "./pages/client/CartPage";
 import CheckoutPage from "./pages/client/CheckoutPage";
+import BookingSuccess from "./pages/client/BookingSuccess";
 import ProtectedRoute from "./router/ProtectedRoute";
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/booking-success" element={<BookingSuccess />} />
         {/* Protected routes */}
         <Route
           path="/admin"

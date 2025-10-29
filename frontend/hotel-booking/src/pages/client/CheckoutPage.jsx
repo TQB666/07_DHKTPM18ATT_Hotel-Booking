@@ -9,9 +9,9 @@ const CheckoutPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [formData, setFormData] = useState({
-    bookingName: "",
-    bookingEmail: "",
-    bookingPhone: "",
+    fullName: "",
+    email: "",
+    phoneNumber: "",
   });
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -52,12 +52,15 @@ const CheckoutPage = () => {
 
   // 🔸 Gửi yêu cầu đặt phòng
   const handleSubmit = async (e) => {
-
+    if (!cartItems || cartItems.length === 0) {
+      alert("❗Bạn chưa chọn phòng nào để đặt.");
+      return;
+    }
     e.preventDefault();
     try {
       const payload = {
         ...formData,
-        cartItems,
+        cartItemIds: cartItems.map((item) => item.id),
         totalPrice: total,
       };
       console.log(payload);
@@ -91,8 +94,8 @@ const CheckoutPage = () => {
               <label className="block text-gray-600 font-medium mb-1">Họ và tên</label>
               <input
                 type="text"
-                name="bookingName"
-                value={formData.bookingName}
+                name="fullName"
+                value={formData.fullName}
                 onChange={handleInputChange}
                 required
                 className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
@@ -103,8 +106,8 @@ const CheckoutPage = () => {
               <label className="block text-gray-600 font-medium mb-1">Email</label>
               <input
                 type="email"
-                name="bookingEmail"
-                value={formData.bookingEmail}
+                name="email"
+                value={formData.email}
                 onChange={handleInputChange}
                 required
                 className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
@@ -115,9 +118,9 @@ const CheckoutPage = () => {
               <label className="block text-gray-600 font-medium mb-1">Số điện thoại</label>
               <input
                 type="tel"
-                name="bookingPhone"
+                name="phoneNumber"
                 pattern="^0[0-9]{9}$"
-                value={formData.bookingPhone}
+                value={formData.phoneNumber}
                 onChange={handleInputChange}
                 required
                 className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"

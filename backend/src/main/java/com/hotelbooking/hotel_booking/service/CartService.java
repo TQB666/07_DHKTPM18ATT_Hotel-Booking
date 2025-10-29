@@ -32,7 +32,7 @@ public class CartService {
 
 
     // Lấy user hiện tại từ authentication
-    private User getCurrentUser() {
+    public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         return userRepository.findByEmail(username)
@@ -40,7 +40,7 @@ public class CartService {
     }
 
     // Lấy giỏ hàng của user hiện tại
-    private Cart getCurrentUserCart(User user) {
+    public Cart getCurrentUserCart(User user) {
         return cartRepository.findByUser(user)
                 .orElseGet(() -> {
                     // Tạo mới giỏ hàng nếu chưa có
@@ -98,7 +98,7 @@ public class CartService {
         return savedCartDetail;
     }
 
-    private void updateCartItemCount(Cart cart) {
+    public void updateCartItemCount(Cart cart) {
         long distinctRoomCount = cartDetailRepository.countByCart(cart);
         cart.setSum((int) distinctRoomCount);
         cartRepository.save(cart);
@@ -170,6 +170,14 @@ public class CartService {
         item.setUpdateAt(LocalDateTime.now());
         return cartDetailRepository.save(item);
     
+    }
+
+    public CartDetail findCartDetailById(Long id){
+        return cartDetailRepository.findById(id).get();
+    }
+
+    public List<CartDetail> findCartDetailByCart(Cart cart){
+        return cartDetailRepository.findByCart(cart);
     }
 
 
