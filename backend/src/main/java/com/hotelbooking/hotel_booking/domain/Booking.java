@@ -64,4 +64,7 @@ public class Booking {
     private String email;
     private String phoneNumber;
 
+    //field để gửi gmail
+    // private String bookingCode;
+    private String confirmationToken;
 }

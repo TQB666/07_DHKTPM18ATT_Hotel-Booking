@@ -16,7 +16,7 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // 🔸 Lấy giỏ hàng
+  // Lấy giỏ hàng
   useEffect(() => {
     const fetchCart = async () => {
       try {
@@ -44,19 +44,20 @@ const CheckoutPage = () => {
     fetchCart();
   }, []);
 
-  // 🔸 Cập nhật form input
+  // Cập nhật form input
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 🔸 Gửi yêu cầu đặt phòng
+  // Gửi yêu cầu đặt phòng
   const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!cartItems || cartItems.length === 0) {
       alert("❗Bạn chưa chọn phòng nào để đặt.");
       return;
     }
-    e.preventDefault();
+    
     try {
       const payload = {
         ...formData,

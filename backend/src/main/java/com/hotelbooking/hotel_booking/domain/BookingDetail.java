@@ -30,7 +30,7 @@ public class BookingDetail {
 
     private double price;
 
-     private int numAdults;
+    private int numAdults;
 
     private int numChildren;
 
