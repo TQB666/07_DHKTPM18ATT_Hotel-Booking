@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.hotelbooking.hotel_booking.domain.Cart;
 import com.hotelbooking.hotel_booking.domain.CartDetail;
@@ -172,14 +174,12 @@ public class CartService {
     
     }
 
-    public CartDetail findCartDetailById(Long id){
-        return cartDetailRepository.findById(id).get();
-    }
-
-    public List<CartDetail> findCartDetailByCart(Cart cart){
-        return cartDetailRepository.findByCart(cart);
-    }
-
+    public CartDetail findCartDetailById(Long id) {
+    return cartDetailRepository.findById(id)
+        .orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND, "Cart item không tồn tại hoặc đã bị xóa"
+        ));
+    }  
 
 
 }
