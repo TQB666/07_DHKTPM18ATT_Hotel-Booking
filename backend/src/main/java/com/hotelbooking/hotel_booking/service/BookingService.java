@@ -67,10 +67,10 @@ public class BookingService {
 
             bookingDetailRepository.save(bookingDetail);
 
-            // // ✅ Giảm số lượng phòng còn lại
+            // //  Giảm số lượng phòng còn lại
             // Room room = c.getRoom();
             // if (room.getQuantity() < c.getQuantity()) {
-            //     throw new RuntimeException("❌ Phòng " + room.getName() + " không đủ số lượng.");
+            //     throw new RuntimeException(" Phòng " + room.getName() + " không đủ số lượng.");
             // }
             // room.setQuantity(room.getQuantity() - c.getQuantity());
             // roomRepository.save(room);
