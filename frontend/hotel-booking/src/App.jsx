@@ -5,7 +5,7 @@ import Signup from "./pages/auth/Signup";
 import HomePage from "./pages/client/HomePage";
 import HotelList from "./pages/client/HotelList";
 import HotelDetail from "./pages/client/DetailHotelPage";
-import AdminPage from "./pages/admin/AdminPage";
+import AdminDashBoard from "./pages/admin/AdminDashBoard";
 import CartPage from "./pages/client/CartPage";
 import CheckoutPage from "./pages/client/CheckoutPage";
 import BookingSuccess from "./pages/client/BookingSuccess";
@@ -30,7 +30,7 @@ export default function App() {
           path="/admin"
           element={
             <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
-              <AdminPage />
+              <AdminDashBoard />
             </ProtectedRoute>
           }
         />
