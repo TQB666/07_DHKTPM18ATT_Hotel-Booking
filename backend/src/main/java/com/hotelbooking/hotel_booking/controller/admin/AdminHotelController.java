@@ -16,7 +16,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/hotels")
-public class HotelController {
+public class AdminHotelController {
     private final HotelService hotelService;
 
     // Lấy danh sách khách sạn, có thể lọc theo nếu client truyền query param
