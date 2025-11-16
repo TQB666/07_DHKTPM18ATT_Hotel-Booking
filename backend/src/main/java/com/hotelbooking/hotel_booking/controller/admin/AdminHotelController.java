@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/hotels")
+@RequestMapping("/api/admin/hotels")
 public class AdminHotelController {
     private final HotelService hotelService;
 
