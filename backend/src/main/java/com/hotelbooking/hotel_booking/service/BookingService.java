@@ -94,4 +94,40 @@ public class BookingService {
     public void save(Booking booking){
         bookingRepository.save(booking);
     }
+
+//    admin booking managament
+    /**
+     * Lấy tất cả booking (cho admin)
+     */
+    public List<Booking> getAllBookings() {
+        // Sắp xếp theo ngày đặt hàng mới nhất
+        return bookingRepository.findAllByOrderByIdDesc();
+    }
+
+    /**
+     * Lấy chi tiết 1 booking (cho admin)
+     */
+    public Optional<Booking> getBookingById(Long id) {
+        return bookingRepository.findById(id);
+    }
+
+    /**
+     * Cập nhật trạng thái booking (cho admin)
+     * Ví dụ: từ PENDING -> CONFIRMED
+     */
+    @Transactional
+    public Booking updateBookingStatus(Long id, String newStatus, String newPaymentStatus) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy booking với id: " + id));
+
+        if (newStatus != null && !newStatus.isEmpty()) {
+            booking.setStatus(newStatus);
+        }
+
+        if (newPaymentStatus != null && !newPaymentStatus.isEmpty()) {
+            booking.setPaymentStatus(newPaymentStatus);
+        }
+
+        return bookingRepository.save(booking);
+    }
 }
