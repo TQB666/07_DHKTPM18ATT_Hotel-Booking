@@ -33,7 +33,7 @@ const Sidebar = () => {
         </Link>
 
         <Link
-          to="/admin/booking"
+          to="/admin/bookings"
           className="flex items-center gap-3 px-4 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition"
         >
           <Receipt className="w-5 h-5" />

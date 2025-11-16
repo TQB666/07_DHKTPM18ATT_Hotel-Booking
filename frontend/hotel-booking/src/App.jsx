@@ -11,11 +11,14 @@ import CheckoutPage from "./pages/client/CheckoutPage";
 import BookingSuccess from "./pages/client/BookingSuccess";
 import ProtectedRoute from "./router/ProtectedRoute";
 
+import AdminBooking from "./pages/admin/AdminBooking";
+import AdminBookingDetail from "./pages/admin/AdminBookingDetail";
+
 export default function App() {
   return (
     <Router>
       <Routes>
-        {/* Public routes */}
+        {/* === Public routes === */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/HotelList/:city" element={<HotelList />} />
@@ -25,7 +28,10 @@ export default function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/booking-success" element={<BookingSuccess />} />
-        {/* Protected routes */}
+
+        {/* === Protected routes (ĐÃ SỬA ĐÚNG) === */}
+
+        {/* Route 1: Trang Admin Dashboard */}
         <Route
           path="/admin"
           element={
@@ -33,7 +39,32 @@ export default function App() {
               <AdminDashBoard />
             </ProtectedRoute>
           }
+        /> {/* <--- KẾT THÚC ROUTE /ADMIN Ở ĐÂY (dùng '/>') */}
+
+        {/* Route 2: Trang Quản lý Booking (độc lập) */}
+        <Route
+          path="/admin/bookings"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminBooking />
+            </ProtectedRoute>
+          }
         />
+
+        {/* Route 3: Trang Chi tiết Booking (độc lập) */}
+        <Route
+          path="/admin/bookings/:id"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminBookingDetail />
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Đặt các route admin khác ở đây (ví dụ /admin/users)
+            ngang hàng với các route trên
+        */}
+
       </Routes>
     </Router>
   );
