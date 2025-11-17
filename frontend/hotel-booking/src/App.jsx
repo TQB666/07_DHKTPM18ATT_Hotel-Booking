@@ -14,10 +14,10 @@ import ProtectedRoute from "./router/ProtectedRoute";
 import AdminBooking from "./pages/admin/AdminBooking";
 import AdminBookingDetail from "./pages/admin/AdminBookingDetail";
 import AdminUserPage from "./pages/admin/AdminUser";
-import AdminUserDetail from "./pages/admin/AdminUserDetail"
+import AdminUserDetail from "./pages/admin/AdminUserDetail";
 import AdminUserEdit from "./pages/admin/AdminUserEdit";
-
-
+import AdminRoom from "./pages/admin/AdminRoom";
+import AdminRoomDetail from "./pages/admin/AdminRoomDetail";
 
 export default function App() {
   return (
@@ -33,9 +33,7 @@ export default function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/booking-success" element={<BookingSuccess />} />
-
         {/* === Protected routes (ĐÃ SỬA ĐÚNG) === */}
-
         {/* Route 1: Trang Admin Dashboard */}
         <Route
           path="/admin"
@@ -44,8 +42,8 @@ export default function App() {
               <AdminDashBoard />
             </ProtectedRoute>
           }
-        /> {/* <--- KẾT THÚC ROUTE /ADMIN Ở ĐÂY (dùng '/>') */}
-
+        />{" "}
+        {/* <--- KẾT THÚC ROUTE /ADMIN Ở ĐÂY (dùng '/>') */}
         {/* Route 2: Trang Quản lý Booking (độc lập) */}
         <Route
           path="/admin/bookings"
@@ -55,7 +53,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
         {/* Route 3: Trang Chi tiết Booking (độc lập) */}
         <Route
           path="/admin/bookings/:id"
@@ -89,13 +86,25 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
-
-
+        <Route
+          path="/admin/room"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminRoom />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/room/:id"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminRoomDetail />
+            </ProtectedRoute>
+          }
+        />
         {/* Đặt các route admin khác ở đây (ví dụ /admin/users)
             ngang hàng với các route trên
         */}
-
       </Routes>
     </Router>
   );
