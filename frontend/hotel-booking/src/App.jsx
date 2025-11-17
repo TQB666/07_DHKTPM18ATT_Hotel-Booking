@@ -13,6 +13,8 @@ import ProtectedRoute from "./router/ProtectedRoute";
 
 import AdminBooking from "./pages/admin/AdminBooking";
 import AdminBookingDetail from "./pages/admin/AdminBookingDetail";
+import AdminUserPage from "./pages/admin/AdminUser";
+
 
 export default function App() {
   return (
@@ -60,7 +62,16 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        
+        <Route
+          path="/admin/user"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminUserPage />
+            </ProtectedRoute>
+          }
+        />
+
+
         {/* Đặt các route admin khác ở đây (ví dụ /admin/users)
             ngang hàng với các route trên
         */}
