@@ -47,18 +47,20 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "hotel_id")
-    @JsonBackReference
+    @JsonIgnore
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Hotel hotel;
 
     @OneToMany(mappedBy = "room")
-    @JsonBackReference
+    @JsonIgnore
     Set<CartDetail> cartDetails;
 
     @OneToMany(mappedBy = "room")
+    @JsonIgnore
     Set<BookingDetail> bookingDetails;
 
     @OneToMany(mappedBy = "room")
+    @JsonIgnore
     private Set<Image> images;
 }
