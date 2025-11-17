@@ -2,53 +2,41 @@
 import Sidebar from "@/components/admin/Sidebar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Search, Eye, Edit, Trash2 } from "lucide-react"
-import { useState } from "react"
-
-const users = [
-  {
-    id: 1,
-    name: "Nguyễn Văn A",
-    email: "nguyenvana@gmail.com",
-    role: "User",
-    phone: "0123 456 789",
-    createdAt: "2024-12-18"
-  },
-  {
-    id: 2,
-    name: "Trần Thị B",
-    email: "tranb@gmail.com",
-    role: "User",
-    phone: "0987 654 321",
-    createdAt: "2024-11-10"
-  },
-  {
-    id: 3,
-    name: "Admin",
-    email: "admin@gmail.com",
-    role: "Admin",
-    phone: "0999 888 777",
-    createdAt: "2024-01-01"
-  }
-]
+import { useState, useEffect } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 export default function AdminUserPage() {
   const [searchTerm, setSearchTerm] = useState("")
+  const [users, setUsers] = useState([])
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+
+    axios.get("http://localhost:8080/api/admin/users", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => {
+        console.log("User Data:", res.data)
+        setUsers(res.data)
+      })
+      .catch(err => console.error("Lỗi load user:", err))
+  }, [])
 
   const filteredUsers = users.filter(
     (u) =>
-      u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.email.toLowerCase().includes(searchTerm.toLowerCase())
+      u.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      u.email?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const roleColor = (role) => {
-    switch (role) {
-      case "Admin":
-        return "bg-purple-100 text-purple-700"
-      case "User":
-        return "bg-blue-100 text-blue-700"
-      default:
-        return "bg-gray-200 text-gray-700"
-    }
+  const roleColor = (roleName) => {
+    if (!roleName) return "bg-gray-200 text-gray-700"
+    return roleName === "ADMIN"
+      ? "bg-purple-100 text-purple-700"
+      : "bg-blue-100 text-blue-700"
   }
 
   return (
@@ -97,25 +85,35 @@ export default function AdminUserPage() {
                     {filteredUsers.map((user) => (
                       <tr key={user.id} className="border-b hover:bg-slate-50">
                         <td className="p-3">#{user.id}</td>
-                        <td className="p-3 font-semibold">{user.name}</td>
+                        <td className="p-3 font-semibold">{user.fullName}</td>
                         <td className="p-3 text-slate-700">{user.email}</td>
                         <td className="p-3 text-slate-700">{user.phone}</td>
 
+                        {/* FIX ROLE NULL */}
                         <td className="p-3">
-                          <span className={`px-3 py-1 text-xs rounded-full font-semibold ${roleColor(user.role)}`}>
-                            {user.role}
+                          <span className={`px-3 py-1 text-xs rounded-full font-semibold ${roleColor(user.roleName)}`}>
+                            {user.roleName || "USER"}
                           </span>
                         </td>
 
-                        <td className="p-3 text-slate-700">{user.createdAt}</td>
+                        {/* FIX createdAt NULL */}
+                        <td className="p-3 text-slate-700">
+                          {user.createdAt ?? "N/A"}
+                        </td>
 
                         <td className="p-3">
                           <div className="flex gap-2">
-                            <button className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg">
-                              <Eye className="w-4 h-4" />
+                            <button
+                              onClick={() => navigate(`/admin/users/${user.id}`)}
+                              className="p-2 hover:bg-blue-100 rounded-xl"
+                            >
+                              <Eye size={20} className="text-blue-600" />
                             </button>
-                            <button className="p-2 text-amber-600 hover:bg-amber-100 rounded-lg">
-                              <Edit className="w-4 h-4" />
+                            <button
+                              onClick={() => navigate(`/admin/users/edit/${user.id}`)}
+                              className="p-2 hover:bg-amber-100 rounded-xl"
+                            >
+                              <Edit size={20} className="text-amber-600" />
                             </button>
                             <button className="p-2 text-red-600 hover:bg-red-100 rounded-lg">
                               <Trash2 className="w-4 h-4" />
