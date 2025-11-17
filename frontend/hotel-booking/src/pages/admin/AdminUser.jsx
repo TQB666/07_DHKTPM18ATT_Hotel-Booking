@@ -29,7 +29,8 @@ export default function AdminUserPage() {
   const filteredUsers = users.filter(
     (u) =>
       u.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      u.email?.toLowerCase().includes(searchTerm.toLowerCase())
+      u.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      u.phone?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const roleColor = (roleName) => {
@@ -58,7 +59,7 @@ export default function AdminUserPage() {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg bg-slate-50 focus:ring-2 focus:ring-blue-500"
-                    placeholder="Tìm tên hoặc email..."
+                    placeholder="Tìm tên, email hoặc SDT..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
@@ -76,7 +77,6 @@ export default function AdminUserPage() {
                       <th className="p-3 text-left">Email</th>
                       <th className="p-3 text-left">Số điện thoại</th>
                       <th className="p-3 text-left">Vai trò</th>
-                      <th className="p-3 text-left">Ngày tạo</th>
                       <th className="p-3 text-left">Hành động</th>
                     </tr>
                   </thead>
@@ -97,10 +97,7 @@ export default function AdminUserPage() {
                         </td>
 
                         {/* FIX createdAt NULL */}
-                        <td className="p-3 text-slate-700">
-                          {user.createdAt ?? "N/A"}
-                        </td>
-
+                        
                         <td className="p-3">
                           <div className="flex gap-2">
                             <button
