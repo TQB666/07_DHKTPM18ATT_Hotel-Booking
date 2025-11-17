@@ -14,6 +14,9 @@ import ProtectedRoute from "./router/ProtectedRoute";
 import AdminBooking from "./pages/admin/AdminBooking";
 import AdminBookingDetail from "./pages/admin/AdminBookingDetail";
 import AdminUserPage from "./pages/admin/AdminUser";
+import AdminUserDetail from "./pages/admin/AdminUserDetail"
+import AdminUserEdit from "./pages/admin/AdminUserEdit";
+
 
 
 export default function App() {
@@ -70,6 +73,23 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/users/:id"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminUserDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/users/edit/:id"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminUserEdit />
+            </ProtectedRoute>
+          }
+        />
+
 
 
         {/* Đặt các route admin khác ở đây (ví dụ /admin/users)

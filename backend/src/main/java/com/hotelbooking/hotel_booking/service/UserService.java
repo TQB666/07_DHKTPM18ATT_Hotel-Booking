@@ -1,5 +1,6 @@
 package com.hotelbooking.hotel_booking.service;
 
+import com.hotelbooking.hotel_booking.domain.dto.UserDTO;
 import org.springframework.stereotype.Service;
 
 import com.hotelbooking.hotel_booking.domain.Role;
@@ -9,6 +10,9 @@ import com.hotelbooking.hotel_booking.repository.RoleRepository;
 import com.hotelbooking.hotel_booking.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -36,5 +40,47 @@ public class UserService {
 
     public Role getRoleByName(String nameRole){
         return roleRepository.findByName(nameRole);
+    }
+
+    public List<UserDTO> getAllUsersDTO() {
+        return userRepository.findAll().stream()
+                .map(user -> new UserDTO(
+                        user.getId(),
+                        user.getFullName(),
+                        user.getEmail(),
+                        user.getPhone(),
+                        user.getAvatar(),
+                        user.getRole() != null ? user.getRole().getName() : null
+                ))
+                .collect(Collectors.toList());
+    }
+
+
+    public UserDTO getUserById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) return null;
+
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setFullName(user.getFullName());
+        dto.setEmail(user.getEmail());
+        dto.setPhone(user.getPhone());
+        dto.setAvatar(user.getAvatar());
+        dto.setRoleName(user.getRole() != null ? user.getRole().getName() : "USER");
+        return dto;
+    }
+
+    public UserDTO updateUser(Long id, UserDTO userDTO) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setFullName(userDTO.getFullName());
+        user.setEmail(userDTO.getEmail());
+        user.setPhone(userDTO.getPhone());
+        // Nếu roleName thay đổi
+        if (userDTO.getRoleName() != null) {
+            Role role = roleRepository.findByName(userDTO.getRoleName());
+            user.setRole(role);
+        }
+        userRepository.save(user);
+        return new UserDTO(user.getId(), user.getFullName(), user.getEmail(), user.getPhone(), user.getAvatar(), user.getRole() != null ? user.getRole().getName() : null);
     }
 }
