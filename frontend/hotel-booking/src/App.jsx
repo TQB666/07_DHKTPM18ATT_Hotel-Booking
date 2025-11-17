@@ -19,7 +19,10 @@ import AdminUserEdit from "./pages/admin/AdminUserEdit";
 import AdminRoom from "./pages/admin/AdminRoom";
 import AdminRoomDetail from "./pages/admin/AdminRoomDetail";
 import AdminRoomEdit from "./pages/admin/AdminRoomEdit";
-
+import AdminHotel from "./pages/admin/AdminHotel";
+import AdminHotelDetail from "./pages/admin/AdminHotelDetail";
+import AdminHotelAdd from "./pages/admin/AdminHotelAdd";
+import AdminHotelEdit from "./pages/admin/AdminHotelEdit";
 export default function App() {
   return (
     <Router>
@@ -108,6 +111,38 @@ export default function App() {
           element={
             <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
               <AdminRoomEdit />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/hotel"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminHotel />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/hotel/:id"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminHotelDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/hotel/add"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminHotelAdd />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/hotel/edit/:id"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminHotelEdit />
             </ProtectedRoute>
           }
         />

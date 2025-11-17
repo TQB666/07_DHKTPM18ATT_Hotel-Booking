@@ -81,5 +81,25 @@ public class HotelService {
         return hotelRepository.findById(id).get();
     }
 
+    public Hotel createHotel(Hotel hotel){
+        return hotelRepository.save(hotel);
+    }
+
+    
+    public Hotel updateHotel(Long id, Hotel updatedHotel) {
+    Hotel existingHotel = hotelRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Hotel not found with id: " + id));
+
+    // Update các field
+    existingHotel.setName(updatedHotel.getName());
+    existingHotel.setCity(updatedHotel.getCity());
+    existingHotel.setAddress(updatedHotel.getAddress());
+    existingHotel.setRating(updatedHotel.getRating());
+    existingHotel.setDetailDesc(updatedHotel.getDetailDesc());
+    existingHotel.setPhone(updatedHotel.getPhone()); 
+    existingHotel.setImage(updatedHotel.getImage()); 
+    return hotelRepository.save(existingHotel);
+}
+
 }
 
