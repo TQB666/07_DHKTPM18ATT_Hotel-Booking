@@ -2,11 +2,7 @@ package com.hotelbooking.hotel_booking.controller.admin;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.hotelbooking.hotel_booking.domain.Hotel;
 import com.hotelbooking.hotel_booking.service.HotelService;
@@ -17,9 +13,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("/api/admin/hotels")
 public class AdminHotelController {
+
     private final HotelService hotelService;
 
-    // Lấy danh sách khách sạn, có thể lọc theo nếu client truyền query param
+    // Lọc danh sách khách sạn
     @GetMapping("/filter")
     public List<Hotel> getHotels(
             @RequestParam(required = false) String city,
@@ -28,15 +25,44 @@ public class AdminHotelController {
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice) {
         return hotelService.searchHotels(city, name, stars, minPrice, maxPrice);
-        }
+    }
+
+    // Lấy chi tiết 1 khách sạn
     @GetMapping("/{id}")
     public Hotel getHotelById(@PathVariable Long id) {
         return hotelService.getHotelById(id);
     }
 
+    // Lấy toàn bộ khách sạn
+    @GetMapping("")
+    public List<Hotel> getAllHotels() {
+        return hotelService.getAllHotels();
+    }
 
-    
-        
+    // Tạo khách sạn mới
+    @PostMapping("")
+    public Hotel createHotel(@RequestBody Hotel hotel) {
+        return hotelService.createHotel(hotel);
+    }
 
-    
+    // Cập nhật khách sạn
+    @PutMapping("/{id}")
+    public Hotel updateHotel(@PathVariable Long id, @RequestBody Hotel hotel) {
+        return hotelService.updateHotel(id, hotel);
+    }
+
+    // // Xóa khách sạn
+    // @DeleteMapping("/{id}")
+    // public String deleteHotel(@PathVariable Long id) {
+    //     hotelService.deleteHotel(id);
+    //     return "Deleted hotel with id: " + id;
+    // }
+
+    // // Bật/tắt hoạt động
+    // @PutMapping("/{id}/status")
+    // public Hotel updateStatus(
+    //         @PathVariable Long id,
+    //         @RequestParam boolean active) {
+    //     return hotelService.updateHotelStatus(id, active);
+    // }
 }

@@ -42,7 +42,7 @@ public class AuthController {
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        Role role = userService.getRoleByName("Customer");
+        Role role = userService.getRoleByName("User");
         user.setRole(role);
         userService.handleSaveUser(user);
         return ResponseEntity.ok("User registered successfully");
