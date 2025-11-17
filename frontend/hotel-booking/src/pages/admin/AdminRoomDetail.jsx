@@ -67,7 +67,7 @@ export default function AdminRoomDetail() {
           <div className="flex items-center gap-3">
             <button
               className="flex items-center px-3 py-2 bg-slate-200 hover:bg-slate-300 rounded-xl"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate(`/admin/room`)}
             >
               <ArrowLeft size={20} />
             </button>
@@ -75,7 +75,10 @@ export default function AdminRoomDetail() {
           </div>
 
           <div className="flex gap-3">
-            <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">
+            <button
+              onClick={() => navigate(`/admin/room/edit/${id}`)}
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold"
+            >
               Sửa phòng
             </button>
             <button className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold">

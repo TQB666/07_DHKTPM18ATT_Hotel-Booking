@@ -24,7 +24,7 @@ public class RoomService {
     }
 
     // Convert Room entity to RoomDTO
-    private RoomDTO convertToDTO(Room room) {
+    public RoomDTO convertToDTO(Room room) {
         RoomDTO dto = new RoomDTO();
         dto.setId(room.getId());
         dto.setName(room.getName());
@@ -62,15 +62,36 @@ public class RoomService {
     }
 
     // Cập nhật phòng
-//    public Room updateRoom(Long id, Room updated) {
-//        Room room = getRoomById(id);
-//
-//        room.setName(updated.getName());
-//        room.setDescription(updated.getDescription());
-//        room.setCapacity(updated.getCapacity());
-//        room.setStatus(updated.getStatus());
-//
-//        return roomRepository.save(room);
-//    }
+    public Room updateRoom(Long id, Room updated) {
+        Room room = roomRepository.findById(id).orElse(null);
+        
+        if (room == null) {
+            return null;
+        }
+
+        if (updated.getName() != null) {
+            room.setName(updated.getName());
+        }
+        if (updated.getCapacity() > 0) {
+            room.setCapacity(updated.getCapacity());
+        }
+        if (updated.getPrice() >= 0) {
+            room.setPrice(updated.getPrice());
+        }
+        if (updated.getQuantity() >= 0) {
+            room.setQuantity(updated.getQuantity());
+        }
+        if (updated.getDescription() != null) {
+            room.setDescription(updated.getDescription());
+        }
+        if (updated.getStatus() != null) {
+            room.setStatus(updated.getStatus());
+        }
+        if (updated.getImage() != null) {
+            room.setImage(updated.getImage());
+        }
+
+        return roomRepository.save(room);
+    }
 }
 

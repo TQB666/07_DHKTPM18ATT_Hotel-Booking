@@ -31,4 +31,18 @@ public class AdminRoomController {
         }
         return ResponseEntity.ok(room);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateRoom(@PathVariable Long id, @RequestBody Room updated) {
+        Room updatedRoom = roomService.updateRoom(id, updated);
+        if (updatedRoom == null) {
+            return ResponseEntity.notFound().build();
+        }
+        RoomDTO updatedRoomDTO = convertToDTO(updatedRoom);
+        return ResponseEntity.ok(updatedRoomDTO);
+    }
+
+    private RoomDTO convertToDTO(Room room) {
+        return roomService.convertToDTO(room);
+    }
 }

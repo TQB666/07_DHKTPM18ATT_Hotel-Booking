@@ -18,6 +18,7 @@ import AdminUserDetail from "./pages/admin/AdminUserDetail";
 import AdminUserEdit from "./pages/admin/AdminUserEdit";
 import AdminRoom from "./pages/admin/AdminRoom";
 import AdminRoomDetail from "./pages/admin/AdminRoomDetail";
+import AdminRoomEdit from "./pages/admin/AdminRoomEdit";
 
 export default function App() {
   return (
@@ -99,6 +100,14 @@ export default function App() {
           element={
             <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
               <AdminRoomDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/room/edit/:id"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminRoomEdit />
             </ProtectedRoute>
           }
         />
