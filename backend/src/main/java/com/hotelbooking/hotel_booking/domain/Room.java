@@ -47,7 +47,7 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "hotel_id")
-    @JsonIgnore
+    @JsonBackReference
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Hotel hotel;
