@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import HotelCard from "./HotelCard";
 import { useParams } from "react-router-dom";
-import { getHotels } from "../../api/hotelApi"; 
+import { getHotels } from "../../api/hotelApi";
 
 const HotelList = ({ filters, searchData }) => {
   const { city } = useParams();
@@ -17,8 +17,8 @@ const HotelList = ({ filters, searchData }) => {
       .then((data) => setHotels(data))
       .catch((err) => console.error("API error:", err))
       .finally(() => setLoading(false));
-      console.log(filters);
-      
+    console.log(filters);
+
   }, [city, filters]); // gọi lại khi city hoặc filters thay đổi
 
   if (loading) return <p className="text-center my-5">Đang tải dữ liệu...</p>;
@@ -30,7 +30,7 @@ const HotelList = ({ filters, searchData }) => {
   return (
     <>
       {hotels.map((hotel) => (
-        <HotelCard key={hotel.id} hotel={hotel} searchData ={searchData}/>
+        <HotelCard key={hotel.id} hotel={hotel} searchData={searchData} />
       ))}
     </>
   );

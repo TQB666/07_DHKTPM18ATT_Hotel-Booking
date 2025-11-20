@@ -23,7 +23,6 @@ public class AdminUserController {
     @GetMapping
     public List<UserDTO> getAllUsers() {
         List<UserDTO> users = userService.getAllUsersDTO();
-        users.forEach(System.out::println);
        return userService.getAllUsersDTO();
     }
 
