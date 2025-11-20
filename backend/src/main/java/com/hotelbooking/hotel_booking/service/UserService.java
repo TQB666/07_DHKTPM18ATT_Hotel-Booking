@@ -1,5 +1,6 @@
 package com.hotelbooking.hotel_booking.service;
 
+import com.hotelbooking.hotel_booking.domain.dto.BookingDTO;
 import com.hotelbooking.hotel_booking.domain.dto.UserDTO;
 import org.springframework.stereotype.Service;
 
@@ -50,10 +51,12 @@ public class UserService {
                         user.getEmail(),
                         user.getPhone(),
                         user.getAvatar(),
-                        user.getRole() != null ? user.getRole().getName() : null
+                        user.getRole() != null ? user.getRole().getName() : null,
+                        null   // bookings chưa load trong danh sách
                 ))
                 .collect(Collectors.toList());
     }
+
 
 
     public UserDTO getUserById(Long id) {
@@ -67,20 +70,52 @@ public class UserService {
         dto.setPhone(user.getPhone());
         dto.setAvatar(user.getAvatar());
         dto.setRoleName(user.getRole() != null ? user.getRole().getName() : "USER");
+
+        // 🟦 Convert danh sách booking
+        if (user.getBookings() != null) {
+            List<BookingDTO> bookingDTOs = user.getBookings().stream()
+                    .map(b -> {
+                        BookingDTO dtoB = new BookingDTO();
+                        dtoB.setId(b.getId());
+                        dtoB.setBookingDate(b.getBookingDate());
+                        dtoB.setStatus(b.getStatus());
+                        dtoB.setTotalPrice(b.getTotalPrice());
+                        return dtoB;
+                    })
+                    .toList();
+
+            dto.setBookings(bookingDTOs);
+        }
+
+
         return dto;
     }
 
+
     public UserDTO updateUser(Long id, UserDTO userDTO) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         user.setFullName(userDTO.getFullName());
         user.setEmail(userDTO.getEmail());
         user.setPhone(userDTO.getPhone());
-        // Nếu roleName thay đổi
+
         if (userDTO.getRoleName() != null) {
             Role role = roleRepository.findByName(userDTO.getRoleName());
             user.setRole(role);
         }
+
         userRepository.save(user);
-        return new UserDTO(user.getId(), user.getFullName(), user.getEmail(), user.getPhone(), user.getAvatar(), user.getRole() != null ? user.getRole().getName() : null);
+
+        return new UserDTO(
+                user.getId(),
+                user.getFullName(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getAvatar(),
+                user.getRole() != null ? user.getRole().getName() : null,
+                null // không trả bookings khi update
+        );
     }
+
 }

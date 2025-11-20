@@ -39,6 +39,7 @@ export default function AdminUserDetail() {
             <Sidebar />
 
             <div className="flex-1 p-8">
+
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-6">
                     <button
@@ -50,8 +51,8 @@ export default function AdminUserDetail() {
                     <h1 className="text-3xl font-bold">Chi tiết người dùng</h1>
                 </div>
 
-                {/* Main card */}
-                <Card className="max-w-3xl">
+                {/* USER INFO */}
+                <Card className="max-w-3xl mb-8">
                     <CardHeader>
                         <CardTitle className="text-2xl">{user.fullName}</CardTitle>
                     </CardHeader>
@@ -90,6 +91,55 @@ export default function AdminUserDetail() {
                                 <span className="text-gray-400">Không có ảnh</span>
                             )}
                         </div>
+                    </CardContent>
+                </Card>
+
+                {/* BOOKING LIST */}
+                <Card className="max-w-5xl">
+                    <CardHeader>
+                        <CardTitle className="text-2xl">
+                            Lịch sử đặt phòng ({user.bookings?.length || 0})
+                        </CardTitle>
+                    </CardHeader>
+
+                    <CardContent>
+                        {(!user.bookings || user.bookings.length === 0) ? (
+                            <p className="text-slate-500">Khách hàng chưa có đơn đặt phòng nào.</p>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="border-b bg-slate-100">
+                                            <th className="p-3 text-left">Mã đơn</th>
+                                            <th className="p-3 text-left">Ngày đặt</th>
+                                            <th className="p-3 text-left">Trạng thái</th>
+                                            <th className="p-3 text-left">Thanh toán</th>
+                                            <th className="p-3 text-left">Tổng tiền</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {user.bookings.map((b) => (
+                                            <tr key={b.id} className="border-b hover:bg-slate-50">
+                                                <td className="p-3 font-semibold">#{b.id}</td>
+                                                <td className="p-3">
+                                                    {new Date(b.bookingDate).toLocaleString()}
+                                                </td>
+                                                <td className="p-3">{b.status}</td>
+
+                                                <td className="p-3">
+                                                    {b.paymentStatus || "Không có"}
+                                                </td>
+
+                                                <td className="p-3 font-medium text-blue-600">
+                                                    {b.totalPrice.toLocaleString()} VND
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </div>
