@@ -23,6 +23,10 @@ import AdminHotel from "./pages/admin/AdminHotel";
 import AdminHotelDetail from "./pages/admin/AdminHotelDetail";
 import AdminHotelAdd from "./pages/admin/AdminHotelAdd";
 import AdminHotelEdit from "./pages/admin/AdminHotelEdit";
+import AdminVoucherList from "./pages/admin/AdminVoucher";
+import AdminVoucherDetail from "./pages/admin/AdminVoucherDetail";
+import AdminVoucherEdit from "./pages/admin/AdminVoucherEdit";
+import AdminVoucherCreate from "./pages/admin/AdminVoucherAdd";
 export default function App() {
   return (
     <Router>
@@ -143,6 +147,38 @@ export default function App() {
           element={
             <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
               <AdminHotelEdit />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/voucher"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminVoucherList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/voucher/add"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminVoucherCreate />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/voucher/edit/:id"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminVoucherEdit />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/voucher/detail/:id"
+          element={
+            <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+              <AdminVoucherDetail />
             </ProtectedRoute>
           }
         />
