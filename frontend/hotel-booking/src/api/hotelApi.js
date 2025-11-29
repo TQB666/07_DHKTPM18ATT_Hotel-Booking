@@ -40,3 +40,80 @@ export const getHotelById = async (id) => {
     throw err;
   }
 };
+
+
+// ==================== TAG APIs ====================
+
+// Lấy tất cả tags
+export const getAllTags = async () => {
+  try {
+    const res = await api.get("/admin/tags");
+    return res.data;
+  } catch (error) {
+    console.error("Lỗi khi gọi API getAllTags:", error);
+    throw error;
+  }
+};
+
+// Lấy tag theo ID
+export const getTagById = async (id) => {
+  try {
+    const res = await api.get(`/admin/tags/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error("Lỗi khi gọi API getTagById:", error);
+    throw error;
+  }
+};
+
+// Tạo tag mới
+export const createHotelTag = async (hotelId, tagData) => {
+  try {
+    const res = await api.post(`/admin/tags/${hotelId}`, tagData);
+    return res.data;
+  } catch (error) {
+    console.error("Lỗi khi gọi API createHotelTag:", error);
+    
+    if (error.response?.status === 400) {
+      throw new Error("Tên tag đã tồn tại");
+    }
+    
+    throw error;
+  }
+};
+
+// Cập nhật tag
+export const updateTag = async (id, tagData) => {
+  try {
+    const res = await api.put(`/admin/tags/${id}`, tagData);
+    return res.data;
+  } catch (error) {
+    console.error("Lỗi khi gọi API updateTag:", error);
+    
+    if (error.response?.status === 400) {
+      throw new Error("Tên tag đã tồn tại");
+    }
+    
+    if (error.response?.status === 404) {
+      throw new Error("Tag không tồn tại");
+    }
+    
+    throw error;
+  }
+};
+
+// Xóa tag
+export const deleteTag = async (id) => {
+  try {
+    const res = await api.delete(`/admin/tags/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error("Lỗi khi gọi API deleteTag:", error);
+    
+    if (error.response?.status === 404) {
+      throw new Error("Tag không tồn tại");
+    }
+    
+    throw error;
+  }
+};

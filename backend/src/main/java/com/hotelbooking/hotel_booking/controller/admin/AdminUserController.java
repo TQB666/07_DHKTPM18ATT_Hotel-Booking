@@ -7,9 +7,6 @@ import com.hotelbooking.hotel_booking.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.hotelbooking.hotel_booking.domain.User;
-import com.hotelbooking.hotel_booking.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
