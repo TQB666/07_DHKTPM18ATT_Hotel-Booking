@@ -2,7 +2,6 @@ package com.hotelbooking.hotel_booking.controller.admin;
 
 import com.hotelbooking.hotel_booking.domain.Room;
 import com.hotelbooking.hotel_booking.domain.dto.RoomDTO;
-import com.hotelbooking.hotel_booking.domain.dto.UserDTO;
 import com.hotelbooking.hotel_booking.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
